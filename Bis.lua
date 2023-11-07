@@ -1,137 +1,183 @@
 local lib = LibStub("LibParse")
 
-SyndicateDB = {}
 
 SynBis = {
-    frame = {
+    frames = {
         main = nil,
         left = nil,
         right = nil,
-        objet = {
-            casque = {
+        model = nil,
+        items = {
+            slot_1 = {
                 frame = nil,
                 image = nil,
             },
-            cou = {
+            slot_2 = {
                 frame = nil,
                 image = nil,
             },
-            epaules = {
+            slot_3 = {
                 frame = nil,
                 image = nil,
             },
-            cape = {
+            slot_15 = {
                 frame = nil,
                 image = nil,
             },
-            torse = {
+            slot_5 = {
                 frame = nil,
                 image = nil,
             },
-            brassards = {
+            slot_9 = {
                 frame = nil,
                 image = nil,
             },
-            gants = {
+            slot_10 = {
                 frame = nil,
                 image = nil,
             },
-            ceinture = {
+            slot_6 = {
                 frame = nil,
                 image = nil,
             },
-            jambiere = {
+            slot_7 = {
                 frame = nil,
                 image = nil,
             },
-            bottes = {
+            slot_8 = {
                 frame = nil,
                 image = nil,
             },
-            anneau1 = {
+            slot_11 = {
                 frame = nil,
                 image = nil,
             },
-            anneau2 = {
+            slot_12 = {
                 frame = nil,
                 image = nil,
             },
-            bijou1 = {
+            slot_13 = {
                 frame = nil,
                 image = nil,
             },
-            bijou2 = {
+            slot_14 = {
                 frame = nil,
                 image = nil,
             },
-            arme1 = {
+            slot_16 = {
                 frame = nil,
                 image = nil,
             },
-            arme2 = {
+            slot_17 = {
                 frame = nil,
                 image = nil,
             },
-            arme3 = {
+            slot_18 = {
                 frame = nil,
                 image = nil,
             },
         }
     },
     items = {},
-    placement = {
-        casque = {x = 0, y = 0, pos = "left"},
-        cou = {x = 0, y = -50, pos = "left"},
-        epaules = {x = 0, y = -100, pos = "left"},
-        cape = {x = 0, y = -150, pos = "left"},
-        torse = {x = 0, y = -200, pos = "left"},
-        brassards = {x = 0, y = -350, pos = "left"},
-        gants = {x = 0, y = 0, pos = "right"},
-        ceinture = {x = 0, y = -50, pos = "right"},
-        jambiere = {x = 0, y = -100, pos = "right"},
-        bottes = {x = 0, y = -150, pos = "right"},
-        anneau1 = {x = 0, y = -200, pos = "right"},
-        anneau2 = {x = 0, y = -250, pos = "right"},
-        bijou1 = {x = 0, y = -300, pos = "right"},
-        bijou2 = {x = 0, y = -350, pos = "right"},
-        arme1 = {x = -52, y = 0, pos = "bottom"},
-        arme2 = {x = 0, y = 0, pos = "bottom"},
-        arme3 = {x = 52, y = 0, pos = "bottom"},
+    location = {
+        slot_1 = {x = 0, y = 0, pos = "left"},
+        slot_2 = {x = 0, y = -50, pos = "left"},
+        slot_3 = {x = 0, y = -100, pos = "left"},
+        slot_15 = {x = 0, y = -150, pos = "left"},
+        slot_5 = {x = 0, y = -200, pos = "left"},
+        slot_9 = {x = 0, y = -350, pos = "left"},
+        slot_10 = {x = 0, y = 0, pos = "right"},
+        slot_6 = {x = 0, y = -50, pos = "right"},
+        slot_7 = {x = 0, y = -100, pos = "right"},
+        slot_8 = {x = 0, y = -150, pos = "right"},
+        slot_11 = {x = 0, y = -200, pos = "right"},
+        slot_12 = {x = 0, y = -250, pos = "right"},
+        slot_13 = {x = 0, y = -300, pos = "right"},
+        slot_14 = {x = 0, y = -350, pos = "right"},
+        slot_16 = {x = -52, y = 0, pos = "bottom"},
+        slot_17 = {x = 0, y = 0, pos = "bottom"},
+        slot_18 = {x = 52, y = 0, pos = "bottom"},
     },
-    selected = { classe = nil, pseudo = nil },   
+    selected = { classe = nil, pseudo = nil },
+    emptySlot = {
+        slot_1 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_head.tga",
+        slot_2 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_neck.tga",
+        slot_3 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_shoulder.tga",
+        slot_15 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_chest.tga",
+        slot_5 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_chest.tga",
+        slot_9 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_wrists.tga",
+        slot_10 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_hands.tga",
+        slot_6 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_waist.tga",
+        slot_7 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_legs.tga",
+        slot_8 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_feet.tga",
+        slot_11 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_finger.tga",
+        slot_12 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_finger.tga",
+        slot_13 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_trinket.tga",
+        slot_14 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_trinket.tga",
+        slot_16 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_mainhand.tga",
+        slot_17 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_offhand.tga",
+        slot_18 = "Interface\\Addons\\Syndicate\\Media\\emptySlot\\inventoryslot_ranged.tga",
+    }   
 };
+
+local function copyDefaults(src, dst)
+    -- If no source (defaults) is specified, return an empty table:
+    if type(src) ~= "table" then return {} end
+    -- If no target (saved variable) is specified, create a new table:
+    if not type(dst) then dst = {} end
+    -- Loop through the source (defaults):
+    for k, v in pairs(src) do
+        -- If the value is a sub-table:
+        if type(v) == "table" then
+            -- Recursively call the function:
+            dst[k] = copyDefaults(v, dst[k])
+        -- Or if the default value type doesn't match the existing value type:
+        elseif type(v) ~= type(dst[k]) then
+            -- Overwrite the existing value with the default one:
+            dst[k] = v
+        end
+    end
+    -- Return the destination table:
+    return dst
+end
+
+SyndicateDB = copyDefaults(SyndicateDB, SyndicateDB)
+
+
+
+
 
 function SynBis:Create()
     ----------------
     -- MAIN FRAME --
     ----------------
-    SynBis.frame.main = CreateFrame("Frame","BIS",UIParent,"BasicFrameTemplate");
-    SynBis.frame.main:SetSize(400, 550);
-    SynBis.frame.main:SetPoint("CENTER", UIParent, "CENTER", 0, 0); 
-    SynBis.frame.main:SetMovable(true);
-    SynBis.frame.main:SetClampedToScreen(true)
-    SynBis.frame.main:SetScript("OnMouseDown", function (self, button)
+    SynBis.frames.main = CreateFrame("Frame","BIS",UIParent,"BasicFrameTemplate");
+    SynBis.frames.main:SetSize(400, 550);
+    SynBis.frames.main:SetPoint("CENTER", UIParent, "CENTER", 0, 0); 
+    SynBis.frames.main:SetMovable(true);
+    SynBis.frames.main:SetClampedToScreen(true)
+    SynBis.frames.main:SetScript("OnMouseDown", function (self, button)
       if button == "LeftButton" then
         self:StartMoving()
       end
     end)
-    SynBis.frame.main:SetScript("OnMouseUp", function(self, button)
+    SynBis.frames.main:SetScript("OnMouseUp", function(self, button)
       self:StopMovingOrSizing()
     end)
 
     -----------
     -- TITLE --
     -----------
-    SynBis.frame.main.title = SynBis.frame.main:CreateFontString(nil,"OVERLAY");
-    SynBis.frame.main.title:SetFontObject("GameFontHighlight");
-    SynBis.frame.main.title:SetPoint("CENTER", SynBis.frame.main.TitleBg, "CENTER", 0, 0);
-    SynBis.frame.main.title:SetText("BIS LIST");
+    SynBis.frames.main.title = SynBis.frames.main:CreateFontString(nil,"OVERLAY");
+    SynBis.frames.main.title:SetFontObject("GameFontHighlight");
+    SynBis.frames.main.title:SetPoint("CENTER", SynBis.frames.main.TitleBg, "CENTER", 0, 0);
+    SynBis.frames.main.title:SetText("BIS LIST");
 
     --------------
     -- DROPDOWN --
     --------------
-    dropDown = CreateFrame("FRAME", "WPDemoDropDown", SynBis.frame.main, "UIDropDownMenuTemplate");
-    dropDown:SetPoint("TOPLEFT", SynBis.frame.main, "TOPLEFT", 10, -40);
+    dropDown = CreateFrame("FRAME", "WPDemoDropDown", SynBis.frames.main, "UIDropDownMenuTemplate");
+    dropDown:SetPoint("TOPLEFT", SynBis.frames.main, "TOPLEFT", 10, -40);
     UIDropDownMenu_SetWidth(dropDown, 125);
     UIDropDownMenu_SetText(dropDown, "Choisir un personnage");
 
@@ -170,85 +216,105 @@ function SynBis:Create()
     ----------------
     -- LEFT FRAME --
     ----------------
-    SynBis.frame.left = CreateFrame("Frame", "left", SynBis.frame.main);
-    SynBis.frame.left:SetSize(100, 100);
-    SynBis.frame.left:SetPoint("TOPLEFT", SynBis.frame.main, "TOPLEFT", 0, -50);
+    SynBis.frames.left = CreateFrame("Frame", "left", SynBis.frames.main);
+    SynBis.frames.left:SetSize(100, 100);
+    SynBis.frames.left:SetPoint("TOPLEFT", SynBis.frames.main, "TOPLEFT", 0, -50);
 
     -----------------
     -- RIGHT FRAME --
     -----------------
-    SynBis.frame.right = CreateFrame("Frame", "right", SynBis.frame.main);
-    SynBis.frame.right:SetSize(100, 100);
-    SynBis.frame.right:SetPoint("TOPRIGHT", SynBis.frame.main, "TOPRIGHT", 0, -50);
+    SynBis.frames.right = CreateFrame("Frame", "right", SynBis.frames.main);
+    SynBis.frames.right:SetSize(100, 100);
+    SynBis.frames.right:SetPoint("TOPRIGHT", SynBis.frames.main, "TOPRIGHT", 0, -50);
 
     ------------------
     -- BOTTOM FRAME --
     ------------------
-    SynBis.frame.bottom = CreateFrame("Frame", "bottom", SynBis.frame.main);
-    SynBis.frame.bottom:SetSize(100, 100);
-    SynBis.frame.bottom:SetPoint("BOTTOM", SynBis.frame.main, "BOTTOM", 0, 0);
+    SynBis.frames.bottom = CreateFrame("Frame", "bottom", SynBis.frames.main);
+    SynBis.frames.bottom:SetSize(100, 100);
+    SynBis.frames.bottom:SetPoint("BOTTOM", SynBis.frames.main, "BOTTOM", 0, 0);
 
 
-    SynBis:CreateItemFrames()
-    SynBis.frame.main:Hide();
+    SynBis:CreateItemFrames();
+    SynBis.frames.main:Hide();
 
 
 end
 
 
-function SynBis:CreateItemFrame(emplacement)
-    SynBis.frame.objet[emplacement].frame = CreateFrame("Button", emplacement, SynBis.frame.main);
-    SynBis.frame.objet[emplacement].frame:SetPoint("CENTER", SynBis.placement[emplacement].pos, "CENTER", SynBis.placement[emplacement].x, SynBis.placement[emplacement].y-10);
-    SynBis.frame.objet[emplacement].frame:SetSize(48,48);
-    SynBis.frame.objet[emplacement].frame:SetNormalFontObject("GameFontNormalLarge");
-    SynBis.frame.objet[emplacement].frame:SetHighlightFontObject("GameFontHighlightLarge")
-    SynBis.frame.objet[emplacement].image = SynBis.frame.objet[emplacement].frame:CreateTexture(nil, "BACKGROUND")
-	SynBis.frame.objet[emplacement].image:SetWidth(48)
-	SynBis.frame.objet[emplacement].image:SetHeight(48)
-	SynBis.frame.objet[emplacement].image:SetPoint("TOP", 0, 10)
+function SynBis:CreateItemFrame(location)
+    SynBis.frames.items[location].frame = CreateFrame("Button", location, SynBis.frames.main);
+    SynBis.frames.items[location].frame:SetPoint("CENTER", SynBis.location[location].pos, "CENTER", SynBis.location[location].x, SynBis.location[location].y-10);
+    SynBis.frames.items[location].frame:SetSize(48,48);
+    SynBis.frames.items[location].frame:SetNormalFontObject("GameFontNormalLarge");
+    SynBis.frames.items[location].frame:SetHighlightFontObject("GameFontHighlightLarge")
+    SynBis.frames.items[location].image = SynBis.frames.items[location].frame:CreateTexture(nil, "BACKGROUND")
+	SynBis.frames.items[location].image:SetWidth(48)
+	SynBis.frames.items[location].image:SetHeight(48)
+	SynBis.frames.items[location].image:SetPoint("TOP", 0, 10)
+    SynBis.frames.items[location].image:SetTexture(SynBis.emptySlot[location])
 end
 
 function SynBis:CreateItemFrames()
-    for emplacement, _ in pairs(SynBis.frame.objet) do
-        SynBis:CreateItemFrame(emplacement)
+    for location, _ in pairs(SynBis.frames.items) do
+        SynBis:CreateItemFrame(location)
     end
     --SynBis:LoadBisList()
 end
 
-function SynBis:SetImage(idIcone, itemName, iLink, itemQuality, emplacement)
-    SynBis.frame.objet[emplacement].image:SetTexture(idIcone)
-    SynBis.frame.objet[emplacement].frame:SetScript("OnEnter", function(widget)
-        GameTooltip:SetOwner(SynBis.frame.objet[emplacement].frame)
-        GameTooltip:SetPoint("TOPRIGHT", SynBis.frame.objet[emplacement].frame, "TOPRIGHT", 220, -13);
+function SynBis:SetImage(idIcone, itemName, iLink, itemQuality, location)
+    SynBis.frames.items[location].image:SetTexture(idIcone)
+    SynBis.frames.items[location].frame:SetScript("OnEnter", function(widget)
+        GameTooltip:SetOwner(SynBis.frames.items[location].frame)
+        GameTooltip:SetPoint("TOPRIGHT", SynBis.frames.items[location].frame, "TOPRIGHT", 220, -13);
         GameTooltip:SetHyperlink(iLink)
     end)
-    SynBis.frame.objet[emplacement].frame:SetScript("OnLeave", function(widget)
+    SynBis.frames.items[location].frame:SetScript("OnLeave", function(widget)
         GameTooltip:Hide()
     end)
 end
 
 function SynBis:LoadBisList(classe, pseudo)
-    for emplacement, idObjet in pairs(SyndicateDB[classe][pseudo]) do
+    for location, idObjet in pairs(SyndicateDB[classe][pseudo]) do
         if(idObjet ~= 0) then
-            objet = Item:CreateFromItemID(idObjet)
-            objet:ContinueOnItemLoad(function()
-                local idIcone = objet:GetItemIcon()
-                local itemName = objet:GetItemName()
-                local iLink = objet:GetItemLink()
-                local itemQuality = objet:GetItemQuality()
-                SynBis:SetImage(idIcone, itemName, iLink, itemQuality, emplacement)
-        end)
+            local item = Item:CreateFromItemID(idObjet)
+            item:ContinueOnItemLoad(function()
+                local idIcone = item:GetItemIcon()
+                local itemName = item:GetItemName()
+                local iLink = item:GetItemLink()
+                local itemQuality = item:GetItemQuality()
+                SynBis:SetImage(idIcone, itemName, iLink, itemQuality, location)
+                SynBis.frames.model:TryOn(iLink)
+            end)
+        else
+            SynBis.frames.items[location].image:SetTexture(SynBis.emptySlot[location]) 
         end
     end
 end
 
+function SynBis:CreateModel()
+    SynBis.frames.model = CreateFrame("DressUpModel", nil, SynBis.frames.main);
+    SynBis.frames.model:SetPoint("CENTER");
+    SynBis.frames.model:SetSize(300,300)
+    SynBis.frames.model:SetUnit('player')
+    --local function OnEvent(self, event, unit)
+    --    SynBis.frames.model:SetUnit(unit);
+    --end
+    --SynBis.frames.model:RegisterUnitEvent("UNIT_MODEL_CHANGED", "player")
+    --SynBis.frames.model:SetScript('OnEvent',OnEvent)
+end
 
 SynBis:Create();
 
 function SynBis:Toggle()
-    if(SynBis.frame.main:IsShown()) then
-        SynBis.frame.main:Hide()
+    if(SynBis.frames.main:IsShown()) then
+        SynBis.frames.main:Hide()
     else
-        SynBis.frame.main:Show()
+        SynBis.frames.main:Show()
+        if(SynBis.selected.classe ~= nil) then
+            SynBis:LoadBisList(SynBis.selected.classe, SynBis.selected.pseudo);
+        end
     end
 end
+
+    SynBis:CreateModel();

@@ -151,11 +151,23 @@ function SynBis:Create()
     ----------------
     -- MAIN FRAME --
     ----------------
-    SynBis.frames.main = CreateFrame("Frame","BIS",UIParent,"BasicFrameTemplate");
+    SynBis.frames.main = CreateFrame("Frame","BIS",UIParent,BackdropTemplateMixin and 'BackdropTemplate');
+    SynBis.frames.main:SetFrameStrata('DIALOG')
     SynBis.frames.main:SetSize(400, 550);
     SynBis.frames.main:SetPoint("CENTER", UIParent, "CENTER", 0, 0); 
     SynBis.frames.main:SetMovable(true);
-    SynBis.frames.main:SetClampedToScreen(true)
+    SynBis.frames.main:SetClampedToScreen(true);
+    SynBis.frames.main:SetBackdrop{
+        bgFile='Interface\\DialogFrame\\UI-DialogBox-Background' ,
+        edgeFile='Interface\\DialogFrame\\UI-DialogBox-Border',
+        tile = true,
+        insets = {left = 11, right = 12, top = 12, bottom = 11},
+        tileSize = 32,
+        edgeSize = 32,
+	}
+
+    SynBis.frames.main:SetBackdropColor(1, 1, 1, .85)
+
     SynBis.frames.main:SetScript("OnMouseDown", function (self, button)
       if button == "LeftButton" then
         self:StartMoving()
@@ -168,10 +180,36 @@ function SynBis:Create()
     -----------
     -- TITLE --
     -----------
-    SynBis.frames.main.title = SynBis.frames.main:CreateFontString(nil,"OVERLAY");
-    SynBis.frames.main.title:SetFontObject("GameFontHighlight");
-    SynBis.frames.main.title:SetPoint("CENTER", SynBis.frames.main.TitleBg, "CENTER", 0, 0);
-    SynBis.frames.main.title:SetText("BIS LIST");
+
+    SynBis.frames.main.header = SynBis.frames.main:CreateTexture(nil, 'ARTWORK');
+	SynBis.frames.main.header:SetTexture('Interface\\DialogFrame\\UI-DialogBox-Header');
+	SynBis.frames.main.header:SetWidth(326);
+    SynBis.frames.main.header:SetHeight(64);
+	SynBis.frames.main.header:SetPoint('TOP', 0, 12);
+
+	SynBis.frames.main.title = SynBis.frames.main:CreateFontString('ARTWORK')
+	SynBis.frames.main.title:SetFontObject('GameFontNormal')
+	SynBis.frames.main.title:SetPoint('TOP', SynBis.frames.main.header, 'TOP', 0, -14)
+	SynBis.frames.main.title:SetText("BIS LIST")
+
+
+    -----------
+    -- CLOSE --
+    -----------
+	SynBis.frames.main.exitButton = CreateFrame('Button', 'ExitConfig', SynBis.frames.main, 'UIPanelCloseButton')
+	SynBis.frames.main.exitButton:SetScript('OnClick', function()
+        SynBis.frames.main:Hide()
+    end)
+
+	SynBis.frames.main.exitButton:SetScript('OnEnter', function(self)
+		GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
+		GameTooltip:SetText("Fermer la fênetre", nil, nil, nil, nil, 1)
+	end)
+
+	SynBis.frames.main.exitButton:SetScript('OnLeave', function(self)
+		GameTooltip:Hide()
+	end)
+	SynBis.frames.main.exitButton:SetPoint('TOPRIGHT', -4, -4)
 
     --------------
     -- DROPDOWN --
@@ -295,13 +333,8 @@ end
 function SynBis:CreateModel()
     SynBis.frames.model = CreateFrame("DressUpModel", nil, SynBis.frames.main);
     SynBis.frames.model:SetPoint("CENTER");
-    SynBis.frames.model:SetSize(300,300)
+    SynBis.frames.model:SetSize(450,450)
     SynBis.frames.model:SetUnit('player')
-    --local function OnEvent(self, event, unit)
-    --    SynBis.frames.model:SetUnit(unit);
-    --end
-    --SynBis.frames.model:RegisterUnitEvent("UNIT_MODEL_CHANGED", "player")
-    --SynBis.frames.model:SetScript('OnEvent',OnEvent)
 end
 
 SynBis:Create();

@@ -1,10 +1,8 @@
 local main_frame = nil
 local frame = nil
-local AceGUI = LibStub("AceGUI-3.0")
 local items = {}
 
 Syndicate = LibStub("AceAddon-3.0"):NewAddon("Syndicate", "AceConsole-3.0")
-local SyndicateNa
 local syndicateLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Syndicate", {
     type = "data source",
     text = "Syndicate",
@@ -12,7 +10,6 @@ local syndicateLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Syndicate", {
     OnClick = function(_, button)
         if button == "LeftButton" then
             SynBis:Toggle();
-            --Syndicate:createMainFrame()
         end
         if button == "RightButton" then
             SynImport:Toggle();

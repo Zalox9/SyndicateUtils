@@ -7,6 +7,7 @@ SynBis = {
         left = nil,
         right = nil,
         model = nil,
+        dropDown = nil,
         items = {
             slot_1 = {
                 frame = nil,
@@ -214,13 +215,13 @@ function SynBis:Create()
     --------------
     -- DROPDOWN --
     --------------
-    dropDown = CreateFrame("FRAME", "WPDemoDropDown", SynBis.frames.main, "UIDropDownMenuTemplate");
-    dropDown:SetPoint("TOPLEFT", SynBis.frames.main, "TOPLEFT", 10, -40);
-    UIDropDownMenu_SetWidth(dropDown, 125);
-    UIDropDownMenu_SetText(dropDown, "Choisir un personnage");
+    SynBis.frames.dropDown = CreateFrame("FRAME", "WPDemoDropDown", SynBis.frames.main, "UIDropDownMenuTemplate");
+    SynBis.frames.dropDown:SetPoint("TOPLEFT", SynBis.frames.main, "TOPLEFT", 10, -40);
+    UIDropDownMenu_SetWidth(SynBis.frames.dropDown, 125);
+    UIDropDownMenu_SetText(SynBis.frames.dropDown, "Choisir un personnage");
 
     -- Create menu
-    UIDropDownMenu_Initialize(dropDown, function(self, level, menuList)
+    UIDropDownMenu_Initialize(SynBis.frames.dropDown, function(self, level, menuList)
         local info = UIDropDownMenu_CreateInfo()
         -- level 1
         if (level or 1) == 1 then
@@ -240,7 +241,7 @@ function SynBis:Create()
         end
     end)
 
-    function dropDown:SetValue(newValue)
+    function SynBis.frames.dropDown:SetValue(newValue)
         local regex = "(.*)_(.*)"
         local classe, pseudo = string.match(newValue, regex);
         SynBis.selected.classe = classe;
@@ -249,6 +250,13 @@ function SynBis:Create()
         CloseDropDownMenus()
     end
 
+    ---------
+    -- NOM --
+    ---------
+    SynBis.frames.main.playerName = SynBis.frames.main:CreateFontString('ARTWORK')
+	SynBis.frames.main.playerName:SetFontObject('GameFontNormal')
+	SynBis.frames.main.playerName:SetPoint('LEFT', SynBis.frames.dropDown, "RIGHT", 50, 0)
+	SynBis.frames.main.playerName:SetText("")
 
 
     ----------------
@@ -286,11 +294,30 @@ function SynBis:CreateItemFrame(location)
     SynBis.frames.items[location].frame:SetSize(48,48);
     SynBis.frames.items[location].frame:SetNormalFontObject("GameFontNormalLarge");
     SynBis.frames.items[location].frame:SetHighlightFontObject("GameFontHighlightLarge")
+
     SynBis.frames.items[location].image = SynBis.frames.items[location].frame:CreateTexture(nil, "BACKGROUND")
 	SynBis.frames.items[location].image:SetWidth(48)
 	SynBis.frames.items[location].image:SetHeight(48)
 	SynBis.frames.items[location].image:SetPoint("TOP", 0, 10)
     SynBis.frames.items[location].image:SetTexture(SynBis.emptySlot[location])
+
+    SynBis.frames.items[location].title = SynBis.frames.items[location].frame:CreateFontString('ARTWORK')
+	SynBis.frames.items[location].title:SetFontObject('GameFontNormal')
+    local x, y = nil, nil
+    if(SynBis.location[location].pos == "left") then
+        x = 50;
+        y = -10;
+    elseif(SynBis.location[location].pos == "SynBisAnchorRight") then
+        x = -27;
+        y = -10;
+    else
+        x = 13;
+        y = 20;
+    end
+	SynBis.frames.items[location].title:SetPoint('RIGHT', SynBis.frames.items[location].frame, 'TOP', x, y)
+	SynBis.frames.items[location].title:SetText("ILVL")
+
+
 end
 
 function SynBis:CreateItemFrames()
@@ -313,7 +340,19 @@ function SynBis:SetImage(idIcone, itemName, iLink, itemQuality, location)
 end
 
 function SynBis:LoadBisList(classe, pseudo)
+    SynBis.frames.main.playerName:SetText(pseudo)
     for location, idObjet in pairs(SyndicateDB[classe][pseudo]) do
+        local regex = ".*_(%d+)"
+        local slotNumber = string.match(location, regex);
+        local isWeapon = false;
+        local handSlot = nil;
+        if(slotNumber == 16) then 
+            isWeapon = true;
+            handSlot = "MAINHANDSLOT"
+        elseif(slotNumber == 17) then
+            isWeapon = true;
+            handSlot = "SECONDARYHANDSLOT"
+        end
         if(idObjet ~= 0) then
             local item = Item:CreateFromItemID(idObjet)
             item:ContinueOnItemLoad(function()
@@ -321,11 +360,19 @@ function SynBis:LoadBisList(classe, pseudo)
                 local itemName = item:GetItemName()
                 local iLink = item:GetItemLink()
                 local itemQuality = item:GetItemQuality()
+                local ilvl = item:GetCurrentItemLevel()
                 SynBis:SetImage(idIcone, itemName, iLink, itemQuality, location)
-                SynBis.frames.model:TryOn(iLink)
+                if(isWeapon) then
+                    SynBis.frames.model:TryOn(iLink, handSlot)
+                else
+                    SynBis.frames.model:TryOn(iLink)
+                end
+                SynBis.frames.items[location].title:SetText(ilvl)
             end)
         else
             SynBis.frames.items[location].image:SetTexture(SynBis.emptySlot[location]) 
+            SynBis.frames.items[location].title:SetText("ILVL")
+            SynBis.frames.model:UndressSlot(slotNumber)
         end
     end
 end

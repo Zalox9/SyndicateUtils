@@ -86,14 +86,14 @@ SynBis = {
         slot_15 = {x = 0, y = -150, pos = "left"},
         slot_5 = {x = 0, y = -200, pos = "left"},
         slot_9 = {x = 0, y = -350, pos = "left"},
-        slot_10 = {x = 0, y = 0, pos = "right"},
-        slot_6 = {x = 0, y = -50, pos = "right"},
-        slot_7 = {x = 0, y = -100, pos = "right"},
-        slot_8 = {x = 0, y = -150, pos = "right"},
-        slot_11 = {x = 0, y = -200, pos = "right"},
-        slot_12 = {x = 0, y = -250, pos = "right"},
-        slot_13 = {x = 0, y = -300, pos = "right"},
-        slot_14 = {x = 0, y = -350, pos = "right"},
+        slot_10 = {x = 0, y = 0, pos = "SynBisAnchorRight"},
+        slot_6 = {x = 0, y = -50, pos = "SynBisAnchorRight"},
+        slot_7 = {x = 0, y = -100, pos = "SynBisAnchorRight"},
+        slot_8 = {x = 0, y = -150, pos = "SynBisAnchorRight"},
+        slot_11 = {x = 0, y = -200, pos = "SynBisAnchorRight"},
+        slot_12 = {x = 0, y = -250, pos = "SynBisAnchorRight"},
+        slot_13 = {x = 0, y = -300, pos = "SynBisAnchorRight"},
+        slot_14 = {x = 0, y = -350, pos = "SynBisAnchorRight"},
         slot_16 = {x = -52, y = 0, pos = "bottom"},
         slot_17 = {x = 0, y = 0, pos = "bottom"},
         slot_18 = {x = 52, y = 0, pos = "bottom"},
@@ -261,7 +261,7 @@ function SynBis:Create()
     -----------------
     -- RIGHT FRAME --
     -----------------
-    SynBis.frames.right = CreateFrame("Frame", "right", SynBis.frames.main);
+    SynBis.frames.right = CreateFrame("Frame", "SynBisAnchorRight", SynBis.frames.main);
     SynBis.frames.right:SetSize(100, 100);
     SynBis.frames.right:SetPoint("TOPRIGHT", SynBis.frames.main, "TOPRIGHT", 0, -50);
 

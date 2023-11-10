@@ -1,12 +1,19 @@
 ## Interface: 30403
 ## Title: |cFFFF0000Syndicate|r
-## Version: 1.2
+## Version: 1.3
 ## Notes: Gestion des loots en raid
 ## Author: Bad
 ## SavedVariables: SyndicateDB
+## SavedVariablesPerCharacter: SyndicateDBPlayerBis
+
+Messages.lua
+Core.lua
+
 Libs\LibParse\LibParse.lua
 Libs\LibParse\Load.xml
 
-Bis.lua
-ImportData.lua
+Features\Bis\SettingsBis.lua
+Features\Bis\Bis.lua
+Features\ImportDataBis\ImportData.lua
+
 Syndicate.lua

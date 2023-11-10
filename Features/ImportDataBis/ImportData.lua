@@ -87,8 +87,16 @@ function SynImport:Create()
     SyndicateFrameImportButton:SetScript("OnClick", function(...)
         local textTable = lib:JSONDecode(SyndicateFrameEdit:GetText());
         SynBis.items = textTable;
-        SyndicateDB = textTable;
+        SyndicateDB.bislist = textTable;
+        if(SyndicateBisSettings.comeBack)then
+          SyndicateBisSettings.comeBack=false;
+          if(SyndicateBisSettings.frames.main:IsShown()) then
+          else
+              SyndicateBisSettings.frames.main:Show()
+          end
+        end
         SyndicateFrameImport:Hide();
+
     end)
 end
 

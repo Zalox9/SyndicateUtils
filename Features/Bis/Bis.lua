@@ -2,6 +2,7 @@ local lib = LibStub("LibParse")
 
 
 SynBis = {
+    isInit = false;
     frames = {
         main = nil,
         left = nil,
@@ -121,33 +122,6 @@ SynBis = {
     }   
 };
 
-local function copyDefaults(src, dst)
-    -- If no source (defaults) is specified, return an empty table:
-    if type(src) ~= "table" then return {} end
-    -- If no target (saved variable) is specified, create a new table:
-    if not type(dst) then dst = {} end
-    -- Loop through the source (defaults):
-    for k, v in pairs(src) do
-        -- If the value is a sub-table:
-        if type(v) == "table" then
-            -- Recursively call the function:
-            dst[k] = copyDefaults(v, dst[k])
-        -- Or if the default value type doesn't match the existing value type:
-        elseif type(v) ~= type(dst[k]) then
-            -- Overwrite the existing value with the default one:
-            dst[k] = v
-        end
-    end
-    -- Return the destination table:
-    return dst
-end
-
-SyndicateDB = copyDefaults(SyndicateDB, SyndicateDB)
-
-
-
-
-
 function SynBis:Create()
     ----------------
     -- MAIN FRAME --
@@ -181,7 +155,6 @@ function SynBis:Create()
     -----------
     -- TITLE --
     -----------
-
     SynBis.frames.main.header = SynBis.frames.main:CreateTexture(nil, 'ARTWORK');
 	SynBis.frames.main.header:SetTexture('Interface\\DialogFrame\\UI-DialogBox-Header');
 	SynBis.frames.main.header:SetWidth(326);
@@ -226,7 +199,7 @@ function SynBis:Create()
         -- level 1
         if (level or 1) == 1 then
         -- Display the 0-9, 10-19, ... groups
-            for classe, _ in pairs(SyndicateDB) do
+            for classe, _ in pairs(SyndicateDB.bislist) do
                 info.text, info.checked = classe, classe == SynBis.selected.classe
                 info.menuList, info.hasArrow = classe, true
                 UIDropDownMenu_AddButton(info)
@@ -234,7 +207,7 @@ function SynBis:Create()
         else
         -- level 2 (nested groups)
             info.func = self.SetValue
-            for pseudo, _ in pairs(SyndicateDB[menuList]) do
+            for pseudo, _ in pairs(SyndicateDB.bislist[menuList]) do
                 info.text, info.arg1, info.checked = pseudo, menuList .. "_".. pseudo, pseudo == SynBis.selected.pseudo
                 UIDropDownMenu_AddButton(info, level)
             end
@@ -281,8 +254,13 @@ function SynBis:Create()
     SynBis.frames.bottom:SetPoint("BOTTOM", SynBis.frames.main, "BOTTOM", 0, 0);
 
 
+    -----------
+    -- MODEL --
+    -----------
+    SynBis:CreateModel();
+
     SynBis:CreateItemFrames();
-    SynBis.frames.main:Hide();
+    --SynBis.frames.main:Hide();
 
 
 end
@@ -341,7 +319,7 @@ end
 
 function SynBis:LoadBisList(classe, pseudo)
     SynBis.frames.main.playerName:SetText(pseudo)
-    for location, idObjet in pairs(SyndicateDB[classe][pseudo]) do
+    for location, idObjet in pairs(SyndicateDB.bislist[classe][pseudo]) do
         local regex = ".*_(%d+)"
         local slotNumber = string.match(location, regex);
         local isWeapon = false;
@@ -384,17 +362,32 @@ function SynBis:CreateModel()
     SynBis.frames.model:SetUnit('player')
 end
 
-SynBis:Create();
 
-function SynBis:Toggle()
-    if(SynBis.frames.main:IsShown()) then
-        SynBis.frames.main:Hide()
+function SynBis:CheckDb()
+    if(SyndicateDB.bislist == nil or SyndicateDBPlayerBis.pseudo == nil) then
+        SyndicateBisSettings:Toggle()
     else
-        SynBis.frames.main:Show()
-        if(SynBis.selected.classe ~= nil) then
-            SynBis:LoadBisList(SynBis.selected.classe, SynBis.selected.pseudo);
+        SynBis:Create();
+        SynBis.isInit = true;
+        if(SyndicateDBPlayerBis.classe ~= nil) then
+            SynBis:LoadBisList(SyndicateDBPlayerBis.classe, SyndicateDBPlayerBis.pseudo);
         end
     end
 end
 
-    SynBis:CreateModel();
+
+function SynBis:Toggle()
+    if(SynBis.isInit) then
+        if(SynBis.frames.main:IsShown()) then
+            SynBis.frames.main:Hide()
+        else
+            SynBis.frames.main:Show()
+            if(SyndicateDBPlayerBis.classe ~= nil) then
+                SynBis:LoadBisList(SyndicateDBPlayerBis.classe, SyndicateDBPlayerBis.pseudo);
+            end
+        end
+    else
+        SynBis:CheckDb()
+    end
+end
+

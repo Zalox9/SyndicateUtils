@@ -49,6 +49,25 @@ local function DisplayImportFrame(input)
 end
 
 
+local function CheckPlayerInImport(playerName, playerClasse, import, comeFromSettings)
+  if(playerClasse ~= nil and import[playerClasse] ~= nil) then
+    local playerFound = false;
+    for nom, _ in pairs(import[playerClasse]) do
+        if(nom == playerName)then
+          playerFound = true;
+        end
+    end 
+    if(playerFound == false) then
+        SyndicateDBPlayerBis.pseudo = nil;
+        SyndicateDBPlayerBis.classe = nil;
+        message("Votre personnage n'a pas été trouvé dans le nouvelle import ! Veuillez en choisir un nouveau.");
+        if(comeFromSettings == false and SyndicateBisSettings.frames.main:IsShown() == false) then
+          SyndicateBisSettings.frames.main:Show();
+        end
+    end
+  end
+end
+
 function SynImport:Create()
     SynImport.frame = CreateFrame("Frame", "SyndicateFrameImport", UIParent, "DialogBoxFrame")
     SynImport.frame:SetPoint("CENTER")
@@ -86,9 +105,9 @@ function SynImport:Create()
 
     SyndicateFrameImportButton:SetScript("OnClick", function(...)
         local textTable = lib:JSONDecode(SyndicateFrameEdit:GetText());
-        SynBis.items = textTable;
         SyndicateDB.bislist = textTable;
-        if(SyndicateBisSettings.comeBack)then
+        CheckPlayerInImport(SyndicateDBPlayerBis.pseudo, SyndicateDBPlayerBis.classe, SyndicateDB.bislist)
+        if(SyndicateBisSettings.comeBack) then
           SyndicateBisSettings.comeBack=false;
           if(SyndicateBisSettings.frames.main:IsShown()) then
           else

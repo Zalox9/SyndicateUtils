@@ -82,12 +82,12 @@ SynBis = {
     },
     items = {},
     location = {
-        slot_1 = {x = 0, y = 0, pos = "left"},
-        slot_2 = {x = 0, y = -50, pos = "left"},
-        slot_3 = {x = 0, y = -100, pos = "left"},
-        slot_15 = {x = 0, y = -150, pos = "left"},
-        slot_5 = {x = 0, y = -200, pos = "left"},
-        slot_9 = {x = 0, y = -350, pos = "left"},
+        slot_1 = {x = 0, y = 0, pos = "SynBisAnchorLeft"},
+        slot_2 = {x = 0, y = -50, pos = "SynBisAnchorLeft"},
+        slot_3 = {x = 0, y = -100, pos = "SynBisAnchorLeft"},
+        slot_15 = {x = 0, y = -150, pos = "SynBisAnchorLeft"},
+        slot_5 = {x = 0, y = -200, pos = "SynBisAnchorLeft"},
+        slot_9 = {x = 0, y = -350, pos = "SynBisAnchorLeft"},
         slot_10 = {x = 0, y = 0, pos = "SynBisAnchorRight"},
         slot_6 = {x = 0, y = -50, pos = "SynBisAnchorRight"},
         slot_7 = {x = 0, y = -100, pos = "SynBisAnchorRight"},
@@ -96,9 +96,9 @@ SynBis = {
         slot_12 = {x = 0, y = -250, pos = "SynBisAnchorRight"},
         slot_13 = {x = 0, y = -300, pos = "SynBisAnchorRight"},
         slot_14 = {x = 0, y = -350, pos = "SynBisAnchorRight"},
-        slot_16 = {x = -52, y = 0, pos = "bottom"},
-        slot_17 = {x = 0, y = 0, pos = "bottom"},
-        slot_18 = {x = 52, y = 0, pos = "bottom"},
+        slot_16 = {x = -52, y = 0, pos = "SynBisAnchorBottom"},
+        slot_17 = {x = 0, y = 0, pos = "SynBisAnchorBottom"},
+        slot_18 = {x = 52, y = 0, pos = "SynBisAnchorBottom"},
     },
     selected = { classe = nil, pseudo = nil },
     emptySlot = {
@@ -235,7 +235,7 @@ function SynBis:Create()
     ----------------
     -- LEFT FRAME --
     ----------------
-    SynBis.frames.left = CreateFrame("Frame", "left", SynBis.frames.main);
+    SynBis.frames.left = CreateFrame("Frame", "SynBisAnchorLeft", SynBis.frames.main);
     SynBis.frames.left:SetSize(100, 100);
     SynBis.frames.left:SetPoint("TOPLEFT", SynBis.frames.main, "TOPLEFT", 0, -50);
 
@@ -249,7 +249,7 @@ function SynBis:Create()
     ------------------
     -- BOTTOM FRAME --
     ------------------
-    SynBis.frames.bottom = CreateFrame("Frame", "bottom", SynBis.frames.main);
+    SynBis.frames.bottom = CreateFrame("Frame", "SynBisAnchorBottom", SynBis.frames.main);
     SynBis.frames.bottom:SetSize(100, 100);
     SynBis.frames.bottom:SetPoint("BOTTOM", SynBis.frames.main, "BOTTOM", 0, 0);
 
@@ -282,7 +282,7 @@ function SynBis:CreateItemFrame(location)
     SynBis.frames.items[location].title = SynBis.frames.items[location].frame:CreateFontString('ARTWORK')
 	SynBis.frames.items[location].title:SetFontObject('GameFontNormal')
     local x, y = nil, nil
-    if(SynBis.location[location].pos == "left") then
+    if(SynBis.location[location].pos == "SynBisAnchorLeft") then
         x = 50;
         y = -10;
     elseif(SynBis.location[location].pos == "SynBisAnchorRight") then

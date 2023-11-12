@@ -20,6 +20,7 @@ local syndicateLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Syndicate", {
         tt:AddLine("Syndicate Addon")
         tt:AddLine("|cffffff00 Clic Gauche - Voir les bislist")
         tt:AddLine("|cffffff00 Clic Droit - Importer les data des bislist")
+        tt:AddLine("|cffffff00 Slash Cmd - /syninit")
     end,
     })
 local iconMap = LibStub("LibDBIcon-1.0")

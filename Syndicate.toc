@@ -12,8 +12,13 @@ Core.lua
 Libs\LibParse\LibParse.lua
 Libs\LibParse\Load.xml
 
+Features\Loots\UtilsHistoricalLoots.lua
+Features\MakeFrame.lua
+Features\Loots\HistoricalLoots.lua
+
 Features\Bis\SettingsBis.lua
 Features\Bis\Bis.lua
 Features\ImportDataBis\ImportData.lua
+
 
 Syndicate.lua

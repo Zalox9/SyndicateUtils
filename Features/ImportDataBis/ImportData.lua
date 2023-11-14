@@ -105,7 +105,8 @@ function SynImport:Create()
 
     SyndicateFrameImportButton:SetScript("OnClick", function(...)
         local textTable = lib:JSONDecode(SyndicateFrameEdit:GetText());
-        SyndicateDB.bislist = textTable;
+        SyndicateDB.loot = textTable.loots;
+        SyndicateDB.bislist = textTable.bislists;
         CheckPlayerInImport(SyndicateDBPlayerBis.pseudo, SyndicateDBPlayerBis.classe, SyndicateDB.bislist)
         if(SyndicateBisSettings.comeBack) then
           SyndicateBisSettings.comeBack=false;

@@ -153,3 +153,63 @@ function SyndicateMaker:ClearItemFrame(frame)
         GameTooltip:Hide()
     end)
 end
+
+
+function SyndicateMaker:MakeFrameWithScroll(parent, anchor)
+    local frameHolder;
+     
+    -- create the frame that will hold all other frames/objects:
+    local self = frameHolder or CreateFrame("Frame", nil, parent); -- re-size this to whatever size you wish your ScrollFrame to be, at this point
+    self:SetSize(parent:GetWidth() - 50,  parent:GetHeight() - 100 )
+    self:SetPoint("TOP", anchor, "TOP", 0, -80)
+    self.bg = self:CreateTexture(nil, "BACKGROUND");
+    self.bg:SetAllPoints(true);
+    self.bg:SetColorTexture(0.2, 0.6, 0, 0.8);
+    -- now create the template Scroll Frame (this frame must be given a name so that it can be looked up via the _G function (you'll see why later on in the code)
+    self.scrollframe = self.scrollframe or CreateFrame("ScrollFrame", "ANewScrollFrame", self, "UIPanelScrollFrameTemplate");
+    self.scrollframe:SetSize(500,500)
+    -- create the standard frame which will eventually become the Scroll Frame's scrollchild
+    -- importantly, each Scroll Frame can have only ONE scrollchild
+    self.scrollchild = self.scrollchild or CreateFrame("Frame"); -- not sure what happens if you do, but to be safe, don't parent this yet (or do anything with it)
+     
+    -- define the scrollframe's objects/elements:
+    local scrollbarName = self.scrollframe:GetName()
+    self.scrollbar = _G[scrollbarName.."ScrollBar"];
+    self.scrollupbutton = _G[scrollbarName.."ScrollBarScrollUpButton"];
+    self.scrolldownbutton = _G[scrollbarName.."ScrollBarScrollDownButton"];
+     
+    -- all of these objects will need to be re-anchored (if not, they appear outside the frame and about 30 pixels too high)
+    self.scrollupbutton:ClearAllPoints();
+    self.scrollupbutton:SetPoint("TOPRIGHT", self.scrollframe, "TOPRIGHT", -2, -2);
+     
+    self.scrolldownbutton:ClearAllPoints();
+    self.scrolldownbutton:SetPoint("BOTTOMRIGHT", self.scrollframe, "BOTTOMRIGHT", -2, 2);
+     
+    self.scrollbar:ClearAllPoints();
+    self.scrollbar:SetPoint("TOP", self.scrollupbutton, "BOTTOM", 0, -2);
+    self.scrollbar:SetPoint("BOTTOM", self.scrolldownbutton, "TOP", 0, 2);
+     
+    -- now officially set the scrollchild as your Scroll Frame's scrollchild (this also parents self.scrollchild to self.scrollframe)
+    -- IT IS IMPORTANT TO ENSURE THAT YOU SET THE SCROLLCHILD'S SIZE AFTER REGISTERING IT AS A SCROLLCHILD:
+    self.scrollframe:SetScrollChild(self.scrollchild);
+     
+    -- set self.scrollframe points to the first frame that you created (in this case, self)
+    self.scrollframe:SetAllPoints(self);
+     
+    -- now that SetScrollChild has been defined, you are safe to define your scrollchild's size. Would make sense to make it's height > scrollframe's height,
+    -- otherwise there's no point having a scrollframe!
+    -- note: you may need to define your scrollchild's height later on by calculating the combined height of the content that the scrollchild's child holds.
+    -- (see the bit below about showing content).
+    self.scrollchild:SetSize(self.scrollframe:GetWidth(), ( self.scrollframe:GetHeight() * 2 ));
+     
+     
+    -- THE SCROLLFRAME IS COMPLETE AT THIS POINT.  THE CODE BELOW DEMONSTRATES HOW TO SHOW DATA ON IT.
+     
+     
+    -- you need yet another frame which will be used to parent your widgets etc to.  This is the frame which will actually be seen within the Scroll Frame
+    -- It is parented to the scrollchild.  I like to think of scrollchild as a sort of 'pin-board' that you can 'pin' a piece of paper to (or take it back off)
+    self.moduleoptions = self.moduleoptions or CreateFrame("Frame", nil, self.scrollchild);
+    self.moduleoptions:SetAllPoints(self.scrollchild);
+    return self;
+
+end

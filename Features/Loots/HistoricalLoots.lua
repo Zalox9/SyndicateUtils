@@ -45,16 +45,16 @@ function SyndicateHistoricalLoots:getFrame(parentAnchor, isFirst)
     local frame = tremove(framepool)
     local selfPos = "TOPLEFT"
     local parentPos = "TOPLEFT"
-    local x, y = 20, -50
+    local x, y = 20, -10
     if(isFirst == false) then
         x, y = 0, 0;
         selfPos = "TOP"
         parentPos = "BOTTOM"
     end
     if not frame then
-        frame = UtilsHistoricalLoots:CreateItemFrame(nil, SyndicateHistoricalLoots.frame, x, y, parentAnchor, selfPos, parentPos);
+        frame = UtilsHistoricalLoots:CreateItemFrame(nil, SyndicateHistoricalLoots.frame.body.moduleoptions, x, y, parentAnchor, selfPos, parentPos);
     else
-        frame:SetParent(SyndicateHistoricalLoots.frame)
+        frame:SetParent(SyndicateHistoricalLoots.frame.body.moduleoptions)
         frame:SetPoint(selfPos, parentAnchor ,parentPos, x, y);
         frame:Show();
     end
@@ -67,7 +67,7 @@ function loadLoot(classe, pseudo, data)
     local refFrame = nil;
     for round, entries in pairs(data[classe][pseudo]) do
         if(refFrame == nil) then
-            refFrame = SyndicateHistoricalLoots:getFrame(SyndicateHistoricalLoots.frame.dropdown, true)
+            refFrame = SyndicateHistoricalLoots:getFrame(SyndicateHistoricalLoots.frame.body.moduleoptions, true)
         else
             refFrame = SyndicateHistoricalLoots:getFrame(refFrame, false)
         end
@@ -75,11 +75,11 @@ function loadLoot(classe, pseudo, data)
     end
 end
 
-
 function SyndicateHistoricalLoots:toggle()
     if(SyndicateHistoricalLoots.frame == nil) then
-        SyndicateHistoricalLoots.frame = SyndicateMaker:makeFrame(nil, UIParent, "Historique de loots", 300, 300);
+        SyndicateHistoricalLoots.frame = SyndicateMaker:makeFrame(nil, UIParent, "Historique de loots", 400, 400);
         SyndicateHistoricalLoots.frame.dropdown = SyndicateMaker:CreateDropDown(nil, SyndicateHistoricalLoots.frame, SyndicateHistoricalLoots.frame, SyndicateDB.loot, testSelect, loadLoot)
+        SyndicateHistoricalLoots.frame.body = SyndicateMaker:MakeFrameWithScroll(SyndicateHistoricalLoots.frame, SyndicateHistoricalLoots.frame);
     else
         if(SyndicateHistoricalLoots.frame:IsShown()) then
             SyndicateHistoricalLoots.frame:Hide();

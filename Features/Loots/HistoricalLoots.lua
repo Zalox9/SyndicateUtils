@@ -1,3 +1,9 @@
+----------------
+-- Namespaces --
+----------------
+local _, core = ...;
+local UtilsHistoricalLoots = core.UtilsHistoricalLoots;
+
 local SyndicateHistoricalLoots = {}
 framepool = {}
 framepoolUse = {}
@@ -45,7 +51,7 @@ function SyndicateHistoricalLoots:getFrame(parentAnchor, isFirst)
     local frame = tremove(framepool)
     local selfPos = "TOPLEFT"
     local parentPos = "TOPLEFT"
-    local x, y = 20, -10
+    local x, y = 10, -10
     if(isFirst == false) then
         x, y = 0, 0;
         selfPos = "TOP"
@@ -63,6 +69,7 @@ function SyndicateHistoricalLoots:getFrame(parentAnchor, isFirst)
 end
 
 function loadLoot(classe, pseudo, data)
+    SyndicateHistoricalLoots.frame.playerName:SetText(pseudo)
     SyndicateHistoricalLoots:removeAllFrame(framepoolUse);
     local refFrame = nil;
     for round, entries in pairs(data[classe][pseudo]) do
@@ -75,16 +82,37 @@ function loadLoot(classe, pseudo, data)
     end
 end
 
+function CheckDb(classe, pseudo, data)
+    if(classe ~= nil and pseudo ~= nil and data ~= nid) then
+        if(data[classe] ~= nil and data[classe][pseudo] ~= nil) then
+            loadLoot(SyndicateDBPlayerBis.classe, SyndicateDBPlayerBis.pseudo, SyndicateDB.loot);
+        end
+    end
+
+end
+
 function SyndicateHistoricalLoots:toggle()
     if(SyndicateHistoricalLoots.frame == nil) then
         SyndicateHistoricalLoots.frame = SyndicateMaker:makeFrame(nil, UIParent, "Historique de loots", 400, 400);
         SyndicateHistoricalLoots.frame.dropdown = SyndicateMaker:CreateDropDown(nil, SyndicateHistoricalLoots.frame, SyndicateHistoricalLoots.frame, SyndicateDB.loot, testSelect, loadLoot)
-        SyndicateHistoricalLoots.frame.body = SyndicateMaker:MakeFrameWithScroll(SyndicateHistoricalLoots.frame, SyndicateHistoricalLoots.frame);
+        
+        ---------
+        -- NOM --
+        ---------
+        SyndicateHistoricalLoots.frame.playerName = SyndicateHistoricalLoots.frame:CreateFontString('ARTWORK')
+        SyndicateHistoricalLoots.frame.playerName:SetFontObject('GameFontNormal')
+        SyndicateHistoricalLoots.frame.playerName:SetPoint('LEFT', SyndicateHistoricalLoots.frame.dropdown, "RIGHT", 10, 0)
+        SyndicateHistoricalLoots.frame.playerName:SetText("dsqd")
+        
+        SyndicateHistoricalLoots.frame.bodyWrapper = SyndicateMaker:MakeWrapperWithBorder(SyndicateHistoricalLoots.frame)
+        SyndicateHistoricalLoots.frame.body = SyndicateMaker:MakeFrameWithScroll(SyndicateHistoricalLoots.frame.bodyWrapper, SyndicateHistoricalLoots.frame.bodyWrapper);
+        CheckDb(SyndicateDBPlayerBis.classe, SyndicateDBPlayerBis.pseudo, SyndicateDB.loot);
     else
         if(SyndicateHistoricalLoots.frame:IsShown()) then
             SyndicateHistoricalLoots.frame:Hide();
         else
             SyndicateHistoricalLoots.frame:Show();
+            CheckDb(SyndicateDBPlayerBis.classe, SyndicateDBPlayerBis.pseudo, SyndicateDB.loot);
         end
     end
 end

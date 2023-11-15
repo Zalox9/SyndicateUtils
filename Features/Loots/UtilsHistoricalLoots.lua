@@ -1,4 +1,10 @@
-UtilsHistoricalLoots = {}
+----------------
+-- Namespaces --
+----------------
+local _, core = ...;
+core.UtilsHistoricalLoots = {};
+
+local UtilsHistoricalLoots = core.UtilsHistoricalLoots;
 
 function UtilsHistoricalLoots:CreateItemFrame(name, parent, xCoord, yCoord, parentAnchor, selfPos, parentPos)
     self = CreateFrame("Button", name, parent);

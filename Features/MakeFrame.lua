@@ -155,16 +155,31 @@ function SyndicateMaker:ClearItemFrame(frame)
 end
 
 
+function SyndicateMaker:MakeWrapperWithBorder(parent)
+    local self = frameHolder or CreateFrame("Frame", nil, parent, BackdropTemplateMixin and "BackdropTemplate"); -- re-size this to whatever size you wish your ScrollFrame to be, at this point
+    self:SetSize(parent:GetWidth() - 50,  parent:GetHeight() - 100 )
+    self:SetPoint("TOP", parent, "TOP", 0, -80)
+    self:SetBackdrop({
+        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        tile = true,
+        edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 },
+    })
+    self:SetBackdropColor(0, 0, 0, 0.5)
+    return self;
+end
+
 function SyndicateMaker:MakeFrameWithScroll(parent, anchor)
     local frameHolder;
-     
     -- create the frame that will hold all other frames/objects:
-    local self = frameHolder or CreateFrame("Frame", nil, parent); -- re-size this to whatever size you wish your ScrollFrame to be, at this point
-    self:SetSize(parent:GetWidth() - 50,  parent:GetHeight() - 100 )
-    self:SetPoint("TOP", anchor, "TOP", 0, -80)
-    self.bg = self:CreateTexture(nil, "BACKGROUND");
-    self.bg:SetAllPoints(true);
-    self.bg:SetColorTexture(0.2, 0.6, 0, 0.8);
+    local self = frameHolder or CreateFrame("Frame", nil, parent, BackdropTemplateMixin and "BackdropTemplate"); -- re-size this to whatever size you wish your ScrollFrame to be, at this point
+    self:SetSize(parent:GetWidth() - 10,  parent:GetHeight() - 10 )
+    self:SetPoint("CENTER")
+    --self.bg = self:CreateTexture(nil, "BACKGROUND");
+    --self.bg:SetAllPoints(true);
+    --self.bg:SetColorTexture(0.2, 0.6, 0, 0.8);
+
     -- now create the template Scroll Frame (this frame must be given a name so that it can be looked up via the _G function (you'll see why later on in the code)
     self.scrollframe = self.scrollframe or CreateFrame("ScrollFrame", "ANewScrollFrame", self, "UIPanelScrollFrameTemplate");
     self.scrollframe:SetSize(500,500)

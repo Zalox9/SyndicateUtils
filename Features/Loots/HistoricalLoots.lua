@@ -3,8 +3,9 @@
 ----------------
 local _, core = ...;
 local UtilsHistoricalLoots = core.UtilsHistoricalLoots;
+core.SyndicateHistoricalLoots = {}
 
-local SyndicateHistoricalLoots = {}
+local SyndicateHistoricalLoots = core.SyndicateHistoricalLoots
 framepool = {}
 framepoolUse = {}
 

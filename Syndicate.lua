@@ -1,3 +1,9 @@
+----------------
+-- Namespaces --
+----------------
+local _, core = ...;
+local SyndicateHistoricalLoots = core.SyndicateHistoricalLoots;
+
 local main_frame = nil
 local frame = nil
 local items = {}
@@ -9,7 +15,11 @@ local syndicateLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Syndicate", {
     icon = "Interface\\AddOns\\Syndicate\\Media\\iconOpen.tga",
     OnClick = function(_, button)
         if button == "LeftButton" then
-            SynBis:Toggle();
+            if IsControlKeyDown() then
+                SyndicateHistoricalLoots:toggle();
+            else
+                SynBis:Toggle();
+            end
         end
         if button == "RightButton" then
             SynImport:Toggle();
@@ -18,9 +28,10 @@ local syndicateLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Syndicate", {
      end,
     OnTooltipShow = function(tt)
         tt:AddLine("Syndicate Addon")
-        tt:AddLine("|cffffff00 Clic Gauche - Voir les bislist")
-        tt:AddLine("|cffffff00 Clic Droit - Importer les data des bislist")
-        tt:AddLine("|cffffff00 Slash Cmd - /syninit")
+        tt:AddLine("|cFFa6a6a6 Clic Gauche|r : Voir les bislist")
+        tt:AddLine("|cFFa6a6a6 Ctrl + Clic Gauche|r : Voir l'historique des loots")
+        tt:AddLine("|cFFa6a6a6 Clic Droit|r : Importer les data des bislist")
+        tt:AddLine("|cFFa6a6a6 Slash Cmd|r : /syninit")
     end,
     })
 local iconMap = LibStub("LibDBIcon-1.0")

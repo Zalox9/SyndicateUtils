@@ -94,7 +94,7 @@ function SyndicateMaker:CreateDropDown(name, parent, anchor, data, dataSelect, m
         -- level 2 (nested groups)
             info.func = self.SetValue
             for pseudo, _ in pairs(data[menuList]) do
-                info.text, info.arg1, info.checked = pseudo, menuList .. "_".. pseudo, pseudo == dataSelect.pseudo
+                info.text, info.arg1, info.checked = pseudo, menuList .. "_".. pseudo, pseudo == dataSelect.name
                 UIDropDownMenu_AddButton(info, level)
             end
         end

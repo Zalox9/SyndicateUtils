@@ -74,7 +74,7 @@ function SyndicateMaker:CreateDropDown(name, parent, anchor, data, dataSelect, m
         local regex = "(.*)_(.*)"
         local classe, pseudo = string.match(newValue, regex);
         dataSelect.classe = classe;
-        dataSelect.pseudo = pseudo;
+        dataSelect.name = pseudo;
         method(classe, pseudo, data)
         CloseDropDownMenus()
     end

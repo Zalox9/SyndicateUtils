@@ -155,10 +155,10 @@ function SyndicateMaker:ClearItemFrame(frame)
 end
 
 
-function SyndicateMaker:MakeWrapperWithBorder(parent)
+function SyndicateMaker:MakeWrapperWithBorder(parent, xCoord, yCoord, heightReduction)
     local self = frameHolder or CreateFrame("Frame", nil, parent, BackdropTemplateMixin and "BackdropTemplate"); -- re-size this to whatever size you wish your ScrollFrame to be, at this point
-    self:SetSize(parent:GetWidth() - 50,  parent:GetHeight() - 100 )
-    self:SetPoint("TOP", parent, "TOP", 0, -80)
+    self:SetSize(parent:GetWidth() - 50,  parent:GetHeight() - heightReduction )
+    self:SetPoint("TOP", parent, "TOP", xCoord, yCoord)
     self:SetBackdrop({
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
         edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",

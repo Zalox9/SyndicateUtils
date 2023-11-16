@@ -1,6 +1,6 @@
 ## Interface: 30403
 ## Title: |cFFFF0000Syndicate|r
-## Version: 2.0.0
+## Version: 2.0.1
 ## Notes: Gestion des loots en raid
 ## Author: Bad
 ## SavedVariables: SyndicateDB
